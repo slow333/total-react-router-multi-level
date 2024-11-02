@@ -1,0 +1,129 @@
+
+
+/* ============= table tag */
+table {
+  background-color: #efefef;
+  text-align: center;
+}
+table,
+td,
+th {
+  border: 1px solid #444;
+  border-collapse: collapse;
+}
+th[colspan="2"] {
+  color: orangered;
+}
+th {
+  padding: 2px 8px;
+}
+
+/* =================== common element tag */
+h2,h3,h4,h5 {
+  margin: 10px 0 6px 6px;
+  width: 100%;
+}
+h3::before {
+  content: "» ";
+}
+h3 {
+  font-size: 1.3rem;
+}
+h4 {
+  font-size: 1.2rem;
+}
+h5 {
+  font-size: 1.1rem;
+}
+h5::before {
+  content: "↪ ";
+}
+p, pb {
+  font-size: 1rem;
+  font-family: "Roboto", "Malgun Gothic", serif;
+  margin: 4px 0;
+  padding: 2px 10px;
+  /* width: 92%; */
+  word-break: break-word;
+  line-height: 1.5rem;
+}
+pb {
+  font-weight: bold;  padding: 4px 10px;
+  display: block;
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+pre,
+code,
+kbd {
+  font-size: 1rem;
+  font-family: "Consolas", "Lucida Sans Regular", sans-serif;
+  margin: 12px 0;
+}
+code {
+  display: block;
+  word-wrap: break-word;
+  white-space: pre;
+  font-size: 0.95rem;
+}
+code::before {
+  content: "« ";
+}
+code::after {
+  content: " »";
+}
+kbd {
+  color: #999;
+}
+ul {
+  width: 92%;
+}
+.addedElement {
+  font: 20px/30px Roboto, sans-serif;
+  padding-top: 10px;
+}
+
+hr {
+  margin: 1rem 0;
+  padding: 0;
+  border: 1px dotted darkorange;
+}
+
+button#removeElement {
+  background-color: #f00;
+}
+button#removeElement:hover {
+  cursor: pointer;
+  background-color: darkblue;
+}
+
+button.normal, button.btnSearch {
+  background-color: #333;
+  color: wheat;
+  padding: 4px 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+}
+button.normal:hover {
+  cursor: pointer;
+  background-color: #444;
+  
+}
+/* media set */
+@media screen and (min-width: 800px) {
+  main {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+  }
+  aside {
+    margin: 100px 20px 0 0;
+  }
+}
+/*@media screen and (max-width: 800px) {*/
+/*  header {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*  }*/
+/*}*/
