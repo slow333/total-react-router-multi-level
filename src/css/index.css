@@ -25,10 +25,8 @@ body {
 }
 
 main {
-  margin: 77px 10px 10px 20px;
+  margin: 82px 10px 10px 20px;
   padding:0;
-  /*position: absolute;*/
-  /*min-height: calc(94vh - 4rem);*/
 }
 section {
   border: 1px solid #aaa;
@@ -55,12 +53,14 @@ h1, h2, h3, h4 {
 }
 
 p {
+  font-family: "Consolas",'Nanum Gothic Coding', sans-serif;
   padding: 3px 8px;
   margin: 0;
 }
 
 code {
   display: block;
+  padding: 6px 4px;
   font-family: 'Consolas', 'Nanum Gothic Coding', monospace;
   font-size: 0.95rem;
   word-wrap: break-word;
@@ -80,19 +80,7 @@ code::before {
   width: auto;
   display: inline-block;
 }
-button {
-  font-size: 1rem;
-  padding: 4px 6px;
-  background: #444444;color: #fefefe;
-  border-radius: 4px; width: 180px;
-  text-align: center;
-}
-button:hover {
-  background: #888;color: lightgoldenrodyellow;
-}
-button:disabled {
-  background: #aaa;color: rgb(31, 31, 27);
-}
+
 table {
   width: 100%;
   border: 1px solid #444;
@@ -128,4 +116,16 @@ aside {
 aside a:visited, aside a:link {
   text-decoration: none;
   color: blue;
+}
+ul.no-list-type li {
+  padding:0;
+  margin: 0 0 0 -20px;
+  list-style: none;
+  display: flex;
+  justify-content: left;
+  gap: 1rem;
+  align-items: center;
+}
+ul li{
+  list-style: circle;
 }

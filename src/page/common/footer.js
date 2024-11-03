@@ -1,9 +1,7 @@
-import "../css/footer.css"
-
 function Footer() {
   return (
     <footer className="footer">
-      이 것은 footer 입니다.
+       &nbsp;&nbsp; &copy; Copyright 2099 by Kalpa System. All rights reserved.
     </footer>
   )
 }

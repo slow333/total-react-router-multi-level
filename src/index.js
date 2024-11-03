@@ -6,14 +6,13 @@ import "./css/index.css";
 import Router, {Layout} from "./Router";
 import App from "./App";
 import OutletInput from "./page/OutletInput";
+import Footer from "./page/common/footer";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
        <BrowserRouter>
           <Router/>
-          {/*<Layout/>*/}
-          {/*<OutletInput/>*/}
-          <footer>copyright @right; ok</footer>
+          <Footer/>
        </BrowserRouter>
     </React.StrictMode>
 );
