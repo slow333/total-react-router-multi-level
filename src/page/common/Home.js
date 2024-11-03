@@ -1,48 +1,4 @@
-import { Route, Routes} from "react-router-dom";
-import OutletInput from "../OutletInput";
-import JsxMarkup from "../react-inside/ui-render/01-JsxMarkup";
-import PropsInjection from "../react-inside/ui-render/02-PropsInjection";
-import HowRendering from "../react-inside/ui-render/03-HowRendering";
-import UiTree from "../react-inside/ui-render/04-UiTree";
-import EventHandle from "../react-inside/event-react/01-EventHandle";
-import HandleState from "../react-inside/event-react/02-HandleState";
-import RenderingCommit from "../react-inside/event-react/03-RenderingCommit";
-import ObjectStateUpdate from "../react-inside/event-react/04-ObjectStateUpdate";
-import ArrayStateUpdate from "../react-inside/event-react/05-ArrayStateUpdate";
-import HandleUseState from "../react-inside/state-mgmt/01-HandleUseState";
-import StateArchitecture from "../react-inside/state-mgmt/02-StateArchitecture";
-import StateHoisting from "../react-inside/state-mgmt/03-StateHoisting";
-import StateReducer from "../react-inside/state-mgmt/04-StateReducer";
-import ContextPropDelivery from "../react-inside/state-mgmt/05-ContextPropDelivery";
-import ContextUseReducer from "../react-inside/state-mgmt/06-ContextUseReducer";
-import UsingRef from "../react-outside/ref-effect/01-UsingRef";
-import DOMByRef from "../react-outside/ref-effect/02-DOMByRef";
-import EffectBasic from "../react-outside/side-effect/01-EffectBasic";
-import HtmlBasic from "../html-css/01-HtmlBasic";
-import {CssTips} from "../html-css/02-CssTips";
-import CssAttribute from "../html-css/03-CssAttribute";
-import FormIntro from "../html-css/04-FormIntro";
-import FormTypes from "../html-css/05-FormTypes";
-import InputTypes from "../html-css/06-InputTypes";
-import JsBasic from "../javascript/js/01-JsBasic";
-import JsArrayIfLoop from "../javascript/js/02-JsArrayIf";
-import FuncExample from "../javascript/js/03-Func";
-import EventHandling from "../javascript/js/04-EventHandling";
-import Blob from "../javascript/js/05-Blob";
-import JsObjectBasic from "../javascript/object/01-JsObjectBasic";
-import ObjectPrototype from "../javascript/object/02-ObjectPrototype";
-import Inheritance from "../javascript/object/03-Inheritance";
-import JsonExample from "../javascript/object/04-Json";
-import AsyncBasic from "../javascript/async/01-AsyncBasic";
-import AsyncEventHandler from "../javascript/async/02-AsyncEventHandler";
-import PromisesEx from "../javascript/async/03-PromisesEx";
-import PromisesMultiple from "../javascript/async/05-PromisesMultiple";
-import CustomPromises from "../javascript/async/06-CustomPromises";
-import PromisesApi from "../javascript/async/07-PromisesApi";
-import JsWorker from "../javascript/async/08-JsWorker";
-import Memos from "./memos";
 import React from "react";
-import {Layout} from "../../Router";
 
 export default function Home() {
    return (<main>
@@ -56,10 +12,8 @@ export default function Home() {
                객체</a></li>
          </ul>
          <h3>페이지 구성</h3>
-         <p>home은 main 밑에 article, aside를 구성해서 grid를 적용</p>
-         <p>그외 페이지는 일반적으로 article 로만 구성</p>
-         <h3>Nav bar 구성</h3>
-         <p>Nav Menu는 기본적으로 CSS를 통해 구성</p>
+         <p>home은 main 밑에 article, aside를 구성해서 grid를 적용 그외 페이지는 일반적으로 article 로만 구성</p>
+         <h3>Nav Menu는 기본적으로 CSS를 통해 구성</h3>
          <h4>&nbsp; 🎁 전체 구조</h4>
          <code>
    {`.nav
@@ -81,18 +35,22 @@ export default function Home() {
             <h4>&nbsp; 🎁 javascript 구성</h4>
          <h5>Menu 파일을 만들고 불러와서 사용하기</h5>
          <ol>
-            <li>window.addEventListener("load", fuction() {}</li>
-            <li>document.getElementsByTagName("*");</li>
-            <li>Array.prototype.forEach.call(전체테그, function (el) {}</li>
-            <li>내부에서 html tag의 data 중 data-include-path(el.dataset.includePath)가 있으면 찾음</li>
+            <li>XMLHttpRequest를 사용해서 Async로 구성</li>
             <li>let xhttp = new XMLHttpRequest(); 를 생성하고</li>
-            <li>xhttp.onreadystatechange = function() {}</li>
-            <li>에러가 없으면 찾은 el의 outerHTML에 xhttp에서 받은 것을 text로 넣어줌</li>
-            <li>el.outerHTML = this.responseText;</li>
             <li>xhttp.open("GET", includePath, true);
-               xhttp.send(); 해줌
-            </li>
+               xhttp.send(); 해줌  </li>
          </ol>
+         <code>{`let req = new XMLHttpRequest();
+
+   req.open("GET", requestUrl);
+   req.responseType = "text";
+   req.send();
+
+   req.onload = function () { // async event handler
+      let text = req.response;
+      document.querySelector("#menuNavBar").outerHTML = text;
+      setCurrentPageNav();
+   }`}</code>
          <h5>nav click 시 submenu를 보이게 하고 클릭한 nav link나 button에 디자인을 함</h5>
          <ul>
             <li>menu의 전체 button, a tag를 모두 찾음(querySelectorAll)</li>

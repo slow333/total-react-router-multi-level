@@ -1,5 +1,3 @@
-import {Link} from "react-router-dom";
-
 export default function Memos() {
   return (
      <main>
@@ -10,8 +8,17 @@ export default function Memos() {
               <li>한줄 지우기 : ctrl + y</li>
               <li>한줄 이동 : alt + shift + 화살표</li>
               <li>한줄 복사 : ctrl + D</li>
+              <li>코드자동 정렬 ; ctrl + alt + shift + L</li>
            </ul>
            <p>한줄 복사 Shift + Alt + ↑ Shift + Alt + ↓, 한줄 삭제 Ctrl + shift + k, 한줄 이동 Alt + ↑ Alt + ↓</p>
+        </section>
+        <section>
+           <h2>vs code 단축키</h2>
+           <h4>한줄 지우기 ; ctrl + shift + K</h4>
+           <h4>여러 단어 한번에 변경하기 ; ctrl + shift + L </h4>
+           <h4>한줄 이동 ; alt + 위아래 화살표</h4>
+           <h4>한줄 복사 ; alt + shift + 화살표</h4>
+           <h4>코드 정렬 : alt + shift + F</h4>
         </section>
         <section>
            <h3>git 생성 및 업데이트</h3>
@@ -24,24 +31,7 @@ export default function Memos() {
   git push -u origin main`}</code>
         </section>
         <section>
-           <h2>vs code 단축키</h2>
-           <h4>한줄 지우기 ; ctrl + shift + K</h4>
-           <h4>여러 단어 한번에 변경하기 ; ctrl + shift + L </h4>
-           <h4>한줄 이동 ; alt + 위아래 화살표</h4>
-           <h4>한줄 복사 ; alt + shift + 화살표</h4>
-           <h4>코드 정렬 : alt + shift + F</h4>
-        </section>
-        <section>
-           <h2>web storm 단축키</h2>
-           <h4>코드자동 정렬 ; ctrl + alt + shift + L</h4>
-        </section>
-        <section>
-           <h3>관련 홈페이지들 입니다.</h3>
-           <p>
-              MDN, W3C, JS 튜토리얼 홈페이지
-           </p>
-           <h2>관련 페이지</h2>
-
+           <h3>관련 홈페이지 :MDN, W3C, JS 튜토리얼 홈페이지</h3>
            <ul>
               <li><a href="https://developer.mozilla.org/ko/docs/Learn/HTML">MDN HTML 공부 페이지</a></li>
               <li><a href="https://developer.mozilla.org/ko/docs/Learn/CSS">MDN CSS 공부 페이지</a></li>

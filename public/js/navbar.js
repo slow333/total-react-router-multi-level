@@ -34,7 +34,6 @@ function setCurrentPageNav() {
          let target = e.target;
          let eNextSibling = target.nextSibling.nextSibling;
          let btnNextSibling = target.nextSibling.nextSibling;
-         // console.log(eNextSibling.textContent);
          if (eNextSibling.style.display === "flex") {
             eNextSibling.style.display = "none";
             article.style.marginTop = '62px';
