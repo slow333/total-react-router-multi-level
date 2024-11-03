@@ -3,22 +3,21 @@ nav {
    top: 0;
    width: 100%;
    background-color: #333;
-   padding-right: 30px;
+   padding:0;
    z-index: 100;
 }
 nav ul {
    display: flex;
    justify-content: left;
-   gap: 2rem;
+   /*gap: 2rem;*/
    align-items: center;
-   padding: 0 0 0 16px;
+   padding: 0;
    list-style: none;
 }
 nav ul li {
    list-style: none;
    display: flex;
    justify-content: left;
-   gap: 1rem;
    align-items: center;
    padding:0;
 }
@@ -31,27 +30,27 @@ nav ul li a{
 
 nav ul li ul {
    display: flex;
+   flex: 1 1;
    justify-content: left;
-   gap: 1rem;
    align-items: center;
-   padding:0 0 0 40px;
-
+   padding: 0;
+   margin-left: 20px;
    position: absolute;
    top: 38px;
    left: 50%;
    right: auto;
    transform: translateX(-50%);
    background-color: orangered;
-   width: 105%;
+   width: 106%;
 }
 nav ul li ul li {
    color: whitesmoke;
+   padding: 0;
    text-decoration: none;
    z-index: 10;
 }
 nav ul li ul li a {
    font-size: 1rem;
-   padding: 4px 6px;
 }
 nav ul li ul li a:hover {
    background-color: #777;
@@ -60,10 +59,9 @@ nav ul li ul li a:hover {
 nav ul li ul li ul {
    display: flex;
    justify-content: left;
-   gap: 0.5rem;
    align-items: center;
-   padding:0 0 0 65px;
-
+   padding:0;
+   margin: 0;
    position: absolute;
    top: 32px;
    left: 50%;
@@ -73,8 +71,12 @@ nav ul li ul li ul {
    width: 105%;
 }
 nav ul li ul li ul li {
+   padding:0;
    text-decoration: none;
    z-index: 10;
+}
+nav ul li ul li ul li:first-child {
+   margin-left:20px;
 }
 nav ul li ul li ul li a {
    font-size: 0.9rem;

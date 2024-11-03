@@ -21,7 +21,7 @@ import StateReducer from "./page/react-inside/state-mgmt/04-StateReducer";
 import ContextPropDelivery from "./page/react-inside/state-mgmt/05-ContextPropDelivery";
 import UsingRef from "./page/react-outside/ref-effect/01-UsingRef";
 import DOMByRef from "./page/react-outside/ref-effect/02-DOMByRef";
-import EffectBasic from "./page/react-outside/ref-effect/03-EffectBasic";
+import EffectBasic from "./page/react-outside/side-effect/01-EffectBasic";
 import HtmlBasic from "./page/html-css/01-HtmlBasic";
 import {CssTips} from "./page/html-css/02-CssTips";
 import CssAttribute from "./page/html-css/03-CssAttribute";
@@ -45,6 +45,7 @@ import PromisesMultiple from "./page/javascript/async/05-PromisesMultiple";
 import CustomPromises from "./page/javascript/async/06-CustomPromises";
 import PromisesApi from "./page/javascript/async/07-PromisesApi";
 import JsWorker from "./page/javascript/async/08-JsWorker";
+import NoNeedEffect from "./page/react-outside/side-effect/02-NoNeedEffect";
 
 export default function Router() {
    return (<div>
@@ -57,7 +58,6 @@ export default function Router() {
                   <Route path='jsx-markup' element={<JsxMarkup/>}/>
                   <Route path='props-injection' element={<PropsInjection/>}/>
                   <Route path='how-rendering' element={<HowRendering/>}/>
-                  <Route path='ui-tree' element={<UiTree/>}/>
                </Route>
                <Route path="event" element={<OutletInput/>}>
                   <Route index element={<EventHandle/>}/>
@@ -78,11 +78,15 @@ export default function Router() {
                </Route>
             </Route>
             <Route path='react-outside' element={<OutletInput/>}>
-               <Route path="ref-effect" element={<OutletInput/>}>
+               <Route path="ref" element={<OutletInput/>}>
                   <Route index element={<UsingRef/>}/>
                   <Route path="using-ref" element={<UsingRef/>}/>
                   <Route path="dom-by-ref" element={<DOMByRef/>}/>
+               </Route>
+               <Route path="effect" element={<OutletInput/>}>
+                  <Route index element={<EffectBasic/>}/>
                   <Route path="effect-basic" element={<EffectBasic/>}/>
+                  <Route path="no-need-effect" element={<NoNeedEffect/>}/>
                </Route>
             </Route>
             <Route path='html-css' element={<OutletInput/>}>

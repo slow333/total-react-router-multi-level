@@ -4,9 +4,7 @@
 
 html { box-sizing: border-box; }
 * {  margin: 0; }
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
@@ -25,8 +23,8 @@ body {
 }
 
 main {
-  margin: 82px 10px 10px 20px;
-  padding:0;
+  margin: 46.5px 10px 0px 20px;
+  padding-top: 20px;
 }
 section {
   border: 1px solid #aaa;
@@ -53,7 +51,7 @@ h1, h2, h3, h4 {
 }
 
 p {
-  font-family: "Consolas",'Nanum Gothic Coding', sans-serif;
+  font-family: "Noto Sans KR", sans-serif;
   padding: 3px 8px;
   margin: 0;
 }

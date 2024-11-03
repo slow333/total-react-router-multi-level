@@ -17,7 +17,7 @@ import ContextPropDelivery from "../react-inside/state-mgmt/05-ContextPropDelive
 import ContextUseReducer from "../react-inside/state-mgmt/06-ContextUseReducer";
 import UsingRef from "../react-outside/ref-effect/01-UsingRef";
 import DOMByRef from "../react-outside/ref-effect/02-DOMByRef";
-import EffectBasic from "../react-outside/ref-effect/03-EffectBasic";
+import EffectBasic from "../react-outside/side-effect/01-EffectBasic";
 import HtmlBasic from "../html-css/01-HtmlBasic";
 import {CssTips} from "../html-css/02-CssTips";
 import CssAttribute from "../html-css/03-CssAttribute";

@@ -1,3 +1,5 @@
+import {useEffect, useState} from "react";
+
 export default function EffectBasic() {
    return (<main>
       <h2>Effect로 동기화하기</h2>
@@ -13,6 +15,7 @@ export default function EffectBasic() {
             <li>Strict Mode에서 React는 컴포넌트를 두 번 마운트합니다(개발 환경에서만!) 이는 Effect의 스트레스 테스트를 위한 것입니다.</li>
             <li>Effect가 다시 마운트로 인해 중단된 경우 클린업 함수를 구현해야 합니다.</li>
             <li>React는 Effect가 다시 실행되기 전에 정리 함수(return에 정의한 함수)를 호출하며, 마운트 해제 중에도 호출합니다.</li>
+            <li><b>각각의 렌더링은 각각의 고유한 Effect를 갖습니다. </b> fetch를 적용하면 여러 fetching이 경쟁 상태가 되어 어떤게 먼저 올지 몰라서 이런 경우에는 return 해서 이전 rendering에 적용된 fetching을 중지하는 클린업을 넣어 줘야한다. - <em>맨 아래 예제 참조</em> </li>
          </ul>
       </section>
       <section>
@@ -67,7 +70,7 @@ useEffect(() => {
             <li>필요하면 클린업을 추가
 <code>{`function ChatRoom() {
   useEffect(() => {
-  // 🚩 This wont fix the bug!!! 개발자 모드(2번실행) 안하게 함
+  // 🚩 This won't fix the bug!!! 개발자 모드(2번실행) 안하게 함
     if (!connectionRef.current) {
    const connection = createConnection();
    connection.connect();
@@ -80,5 +83,51 @@ useEffect(() => {
             </li>
          </ol>
       </section>
+      <section>
+         <h4>클린업 적용, fetching</h4>
+         <Page/>
+         <hr/>
+         <p>오래된 API 호출의 결과를 무시하는 것 외에도 더 이상 필요하지 않은 요청을 취소하기 위해 AbortController를 사용할 수도 있습니다. 그러나 이것만으로는 경쟁 조건에 대한 충분한 보호가 이뤄지지 않습니다. 피치 못할 상황에서는 추가적인 비동기 작업이 후행할 수 있으므로 ignore와 같은 명시적 플래그를 사용하는 것이 이러한 종류의 문제를 가장 안전하게 해결하는 가장 신뢰할 수 있는 방법입니다.</p>
+      </section>
    </main>)
+}
+
+function Page() {
+   const [person, setPerson] = useState('Alice');
+   const [bio, setBio] = useState(null);
+
+   useEffect(() => {
+      let ignore = false
+      setBio(null);
+      fetchBio(person).then(result => {
+         if(!ignore){
+            setBio(result);
+         }
+      });
+      return () => {
+         ignore = true;
+      }
+   }, [person]);
+
+   return (
+      <>
+         <select value={person} onChange={e => {
+            setPerson(e.target.value);
+         }}>
+            <option value="Alice">Alice</option>
+            <option value="Bob">Bob</option>
+            <option value="Taylor">Taylor</option>
+         </select>
+         <hr />
+         <p><i>{bio ?? 'Loading...'}</i></p>
+      </>
+   );
+}
+async function fetchBio(person) {
+   const delay = person === 'Bob' ? 2000 : 200;
+   return new Promise(resolve => {
+      setTimeout(() => {
+         resolve('이것은 ' + person + '의 일대기입니다.');
+      }, delay);
+   })
 }

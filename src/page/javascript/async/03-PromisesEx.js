@@ -23,6 +23,21 @@ export default function PromisesEx(){
       </section>
       <section>
          <p>비디오 채팅 애플리케이션의 코드는 아래처럼 작성할 수 있습니다.(js code)</p>
+         <code>{`function handleCallButton(evt) {
+  setStatusMessage("Calling...");
+  navigator.mediaDevices
+    .getUserMedia({ video: true, audio: true })
+    .then((chatStream) => {
+      selfViewElem.srcObject = chatStream;
+      chatStream
+        .getTracks()
+        .forEach((track) => myPeerConnection.addTrack(track, chatStream));
+      setStatusMessage("Connected");
+    })
+    .catch((err) => {
+      setStatusMessage("Failed to connect");
+    });
+   }`}</code>
          <p>이 기능은 상태 메시지에 "Calling..."을 출력하는 setStatusMessage() 함수로 시작하며 통화가 시도되고 있음을 나타냅니다. 그런 다음 getUserMedia()을 호출하여
             비디오와 오디오 트랙이 모두 있는 스트림 요청을 합니다. 그리고 스트림을 획득하면 카메라에서 나오는 스트림을 "self view,"로 표시하기 위해 video엘리먼트를 설정합니다. 그리고 각
             스트림의 트랙을 가져가 다른 사용자와의 연결을 나타내는 WebRTC RTCPeerConnection에 추가합니다. 그리고 마지막으로 상태 메시지를 "Connected"로 업데이트
