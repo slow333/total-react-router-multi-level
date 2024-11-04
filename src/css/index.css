@@ -20,19 +20,24 @@ body {
   overflow-y: scroll;
   overflow-x: hidden;
   min-width: 700px !important;
+  background-color: #eee;
 }
 
 main {
   margin: 46.5px 10px 0px 20px;
   padding-top: 20px;
+  /*background-image: url('/images/bg1.PNG');*/
+  /*background-repeat: no-repeat;*/
+  /*background-origin: content-box;*/
 }
 section {
   border: 1px solid #aaa;
   padding: 0 10px 6px 10px;
+  background-image: linear-gradient(to bottom right, #fff, #eee);
   margin: 8px 12px 4px 10px;
 }
 .layout {
-  min-height: 91vh;
+  min-height: 93.6vh;
 }
 footer {
   position: relative;

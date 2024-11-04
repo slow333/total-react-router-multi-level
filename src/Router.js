@@ -136,7 +136,7 @@ export function Layout() {
    const [mainNavObj, setMainNavObj] = useState(mainNav);
    const [currentUrl, setCurrentUrl] = useState('');
    const [dropdownUrl, setDropdownUrl] = useState('')
-
+  console.log(window.location)
    function handleLevelOne(e, sub) {
       e.preventDefault();
       setMainNavObj(sub);
@@ -163,7 +163,8 @@ export function Layout() {
    return (<div className='layout'>
       <nav>
          <ul>
-            <li onClick={(e) => handleLevelOne(e, {url: '/home', name: 'home'})}>
+            <li key={Date.now()}
+                onClick={(e) => handleLevelOne(e, {url: '/home', name: 'home'})} >
                <Link key='homepage for nav' id='go-home'
                   to="/" style={currentUrl.includes('/home')
                     ? {backgroundColor: 'white', color: '#333'}
@@ -171,7 +172,7 @@ export function Layout() {
                >
                   HOME </Link>
             </li>
-            <li style={{display: "flex"}}>
+            <li style={{display: "flex"}} key={'3step-nav-bar-li'}>
                {mainNav.map(sub => {
                   return <>
                      <Link key={sub.url} to={sub.url}
