@@ -47,4 +47,4 @@ setTimeout(function () {
   setCurrentPage();
 }, 500);
 
-export { removeElements, addElements, concatAndAddEl };
+export { removeElements, addElements, concatAndAddEl,createEl };

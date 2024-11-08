@@ -54,19 +54,13 @@ aside a:visited, aside a:link {
 header {
   position: fixed;
   top: 0;
-  width: 100%;
-  z-index: 9;
-  /* display: flex; */
   justify-content: space-between;
   align-items: center;
-  /* background-image: url("/images/header.png"); */
+  width: 100%;
   background-size: cover;
-  /* opacity: 0.4; */
   background-color: #333;
-  /* min-width: 900px; */
   border: 4px solid orangered;
-  /* border-bottom: 4px solid orangered; */
-  /* box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.2), 0 0 10px 0 rgba(0, 0, 0, 0.19); */
+  z-index: 9;
 }
 header h1 {
   display: none;
@@ -117,13 +111,14 @@ header h1 {
   transform: translateX(-50%);
   background-color: orangered;
   width: 100%;
+  top:40px;
   /* 첫번째 적용 : 우측이동, 아래이동, 3번째; 흐린정도 깊이, 4번째; 전체 깊이 // 두번째 적용*/
   box-shadow: 0 3px 2px 0 rgba(0, 0, 0, 0.2), 0 4px 4px 0 rgba(0, 0, 0, 0.1);
   /* box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2), 0 6px 0 0 rgba(0, 0, 0, 0.1); */
   z-index: 1;
 }
 
-.subnav-content a {
+.subnav-content a, .subnav a {
   float: right;
   color: white;
   text-decoration: none;
@@ -135,14 +130,13 @@ header h1 {
   color: black;
 }
 
-.subnav:hover .subnav-content {
+.subnav:hover .subnav-content{
   display: flex;
-  justify-content: center;
-  text-align: center;
+  justify-content: start;
   z-index: 20;
 }
 
-/* ============= table tag */
+/* ============= table tag ===========*/
 table {
   background-color: #efefef;
   text-align: center;
@@ -160,7 +154,7 @@ th {
   padding: 2px 8px;
 }
 
-/* =================== common element tag */
+/* ========== common element tag =============*/
 h2,h3,h4,h5 {
   margin: 10px 0 6px 6px;
   width: 100%;

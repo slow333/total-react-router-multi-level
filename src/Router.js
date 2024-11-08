@@ -45,6 +45,7 @@ import CustomPromises from "./page/javascript/async/06-CustomPromises";
 import PromisesApi from "./page/javascript/async/07-PromisesApi";
 import JsWorker from "./page/javascript/async/08-JsWorker";
 import NoNeedEffect from "./page/react-outside/side-effect/02-NoNeedEffect";
+import EffectLifecycle from "./page/react-outside/side-effect/03-EffectLifecycle";
 
 export default function Router() {
    return (<div>
@@ -86,6 +87,7 @@ export default function Router() {
                   <Route index element={<EffectBasic/>}/>
                   <Route path="effect-basic" element={<EffectBasic/>}/>
                   <Route path="no-need-effect" element={<NoNeedEffect/>}/>
+                  <Route path="effect-lifecycle" element={<EffectLifecycle/>}/>
                </Route>
             </Route>
             <Route path='html-css' element={<OutletInput/>}>
@@ -131,48 +133,34 @@ export default function Router() {
 }
 
 export function Layout() {
-
    const [mainMenuUrl, setMainMenuUrl] = useState('')
    const [subMenuUrl, setSubMenuUrl] = useState('')
    const [dropdownUrl, setDropdownUrl] = useState('');
 
    let subMenu = (list, url) => list.filter(s => s.url.includes(url));
 
-   let oneSelected = {backgroundColor: 'white', color: 'black', fontWeight: 'bolder'};
-
-   let ulStyle = {display: 'flex', justifyContent: 'left', fontSize: '1rem'}
+   let oneSelected = {backgroundColor: 'white', color: 'black'};
+   let homeMemo = {backgroundColor: 'royalblue', color: 'white'};
+   let ulStyle = {display: 'flex', justifyContent: 'left',alignItems: 'center',
+      width: '100%', fontSize: '1rem'}
    let subMenuStyle = {
       ...ulStyle,
-      alignItems: 'center',
       backgroundColor: 'orangered',
-      width: '100%',
       position: 'absolute',
       top: '38px',
       left: '0', paddingLeft: '20px'
    }
    let dropdownStyle = { ...subMenuStyle,  top: '36px',backgroundColor:'green', fontSize:'10px' }
 
-   let clearUrl = (url) => {
-      if (mainMenuUrl === url) {
-         setSubMenuUrl('');
-         setDropdownUrl('');
-      } else {
-         setMainMenuUrl(url);
-         setSubMenuUrl('');
-         setDropdownUrl('');
-      }
-   }
-   // console.log('main ==> ', mainMenuUrl, '\nsub ===>', subMenuUrl, '\n drop ===>',dropdownUrl)
-
    return (<div className='layout'>
       <nav>
          <ul>
-            <li key={Date.now()}
-                onClick={() => clearUrl('/home')}>
-               <Link to='/' style={mainMenuUrl === '/home' ? oneSelected : {}}
+            <li onClick={() => setMainMenuUrl('/home')}
+                onMouseEnter={() => setMainMenuUrl('')} >
+               <Link to='/' style={mainMenuUrl === '/home' ? oneSelected : homeMemo}
                >HOME</Link>
             </li>
-            <li style={ulStyle}>
+            <li style={ulStyle} >
                { mainNav.map(sub =>
                   <Link
                      key={sub.url} to={sub.url}
@@ -180,8 +168,8 @@ export function Layout() {
                         setMainMenuUrl(sub.url);
                         setSubMenuUrl('');
                      }}
-                     style={ mainMenuUrl === sub.url
-                           ? { backgroundColor: 'white', color: 'black' } : {} }
+
+                     style={ mainMenuUrl === sub.url ? oneSelected : {} }
                   > {sub.name} </Link>
                )}
                { mainMenuUrl &&
@@ -190,29 +178,27 @@ export function Layout() {
                         <li
                            key={sub.url}
                            onMouseEnter={() =>  setSubMenuUrl(sub.url) }
-                           onMouseLeave={() =>  !dropdownUrl ? setSubMenuUrl(sub.url) : ''}
                            onClick={() => setSubMenuUrl('')}
                         >
                            <Link
                               to={sub.url}
-                              style= { sub.url === subMenuUrl
-                                 ? {backgroundColor: 'white', color: 'black'} : {}}
+                              style= { sub.url === subMenuUrl ? oneSelected : {}}
                            > {sub.name}</Link>
                         </li>
                      )}
                      { subMenuUrl &&
-                        <ul style={dropdownStyle} >
+                        <ul style={dropdownStyle} onMouseLeave={() => setSubMenuUrl('')} >
                            {subMenu(links, subMenuUrl).map(dropdown =>
                               <li key={dropdown.url} style={{fontSize:'1rem', padding:"0px"}}
                                   onClick={() => {
                                      setDropdownUrl(dropdown.url);
                                      setSubMenuUrl('');
-                                  }}>
+                                  }}
+                              >
                                  <Link
                                     to={dropdown.url}
                                     style={dropdown.url === dropdownUrl
-                                       ? {backgroundColor: 'white', color: 'black',
-                                          fontSize:'0.9rem', padding:"6px 10px"}
+                                       ? {...oneSelected, fontSize:'0.9rem', padding:"6px 10px"}
                                        : {fontSize:'0.9rem',padding:"6px 10px"}}
                                  > {dropdown.name}</Link>
                               </li>
@@ -220,13 +206,14 @@ export function Layout() {
                         </ul>}
                   </ul>}
             </li>
-            <li onClick={() => clearUrl('/memo')}>
-               <Link
-                  to='/memo'
-                  style={mainMenuUrl === '/memo' ? oneSelected : {}}
+            <li onClick={() => setMainMenuUrl('/memo')}
+                onMouseEnter={() => setMainMenuUrl('')}
+                style={{width:'81%'}}
+            >
+               <Link to='/memo' style={mainMenuUrl === '/memo' ? oneSelected : homeMemo }
                > MEMOS</Link>
             </li>
-            <li><a id='go-js-home' href="/pages/index.html">JS</a></li>
+            <li><a id='go-js-home' href="/pages/index.html" >JS</a></li>
          </ul>
       </nav>
       <Outlet/>

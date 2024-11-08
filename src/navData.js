@@ -40,6 +40,7 @@ const links = [
    { url: '/react-outside/ref/DOM-by-ref', name: 'Ref로 DOM조작', show: false},
    { url: '/react-outside/effect/effect-basic', name: 'side Effect', show: false},
    { url: '/react-outside/effect/no-need-effect', name: '불필요 Effect 제거', show: false},
+   { url: '/react-outside/effect/effect-lifecycle', name: 'effect lifecycle', show: false},
    { url: '/javascript/js/js-basic', name: 'basic', show: false},
    { url: '/javascript/js/js-array-if-loop', name: 'array/if/loop', show: false},
    { url: '/javascript/js/function', name: 'function', show: false},

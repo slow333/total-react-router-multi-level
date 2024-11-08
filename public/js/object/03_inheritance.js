@@ -1,4 +1,4 @@
-import {createElement} from "../exportFunc.js";
+import {createEl} from "../exportFunc.js";
 
 function Person(first, last, age, gender, interests) {
    this.name = { first, last, };
@@ -7,7 +7,7 @@ function Person(first, last, age, gender, interests) {
    this.interests = interests; }
 
 Person.prototype.greeting = function () {
-   createElement("Hi! I'm " + this.name.first + ".");
+   createEl("Hi! I'm " + this.name.first + ".");
 };
 function Teacher(first, last, age, gender, interests, subject) {
    Person.call(this, first, last, age, gender, interests);
