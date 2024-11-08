@@ -52,5 +52,64 @@ export default function NoNeedEffect() {
      // ...
    }`}</code>
       </section>
+      <section>
+         <h3>오래된 응답을 무시하는 정리함수</h3>
+         <p>입력이 올때 마다 새로운 검색을 실행해서 다수의 검색 중 어떤 결과가 먼저 올지 알수 없음
+            <br/> 1. 앞의 결과를 무시하기 위해서는 정리함수가 필요.
+            <br/> 2. 앞의 검색 후 뒤에 검색이 오면 우선 앞의 검색이 취소되고,
+            <br/> 3. 새로운 검색 인스턴스가 생성되어 초기화되서 다시 결과를 설정함
+            <br/> * useEffect 내부에 return을 해서 앞의 결과를 무시</p>
+         <code>{`function SearchResults({ query }) {
+     const [results, setResults] = useState([]);
+     const [page, setPage] = useState(1);
+   
+     useEffect(() => {
+       let ignore = false;
+       if(!false) { 
+          fetchResults(query, page).then(json => {
+            setResults(json);
+          });
+        }, [query, page]);    
+       }
+       return () => ignore = true;
+   
+     function handleNextPageClick() {
+       setPage(page + 1);
+     }
+     // ...
+   }`}</code>
+         <code>{`이렇게 하면 Effect가 데이터를 가져올 때 마지막으로 요청된 응답을 제외한 모든 응답이 무시됩니다.`}</code>
+         <p>데이터 가져오기를 구현할 때 경쟁 조건을 처리하는 것만이 어려운 것은 아닙니다. 응답 캐싱(사용자가 뒤로가기 버튼을 클릭하여 이전 화면을 즉시 볼 수 있도록), 서버에서 데이터를 가져오는 방법(초기 서버 렌더링 HTML에 스피너 대신 가져온 콘텐츠가 포함되도록), 네트워크 워터폴을 피하는 방법(자식이 모든 부모를 기다리지 않고 데이터를 가져올 수 있도록)도 고려해야 합니다.</p>
+         <p>이러한 문제는 React뿐만 아니라 모든 UI 라이브러리에 적용됩니다. 이러한 문제를 해결하는 것은 간단하지 않기 때문에 모던 프레임워크는 Effect에서 데이터를 가져오는 것보다 더 효율적인 내장 데이터 가져오기 메커니즘을 제공합니다.</p>
+         <p>프레임워크를 사용하지 않고(그리고 직접 빌드하고 싶지 않고) Effect에서 데이터를 보다 인체공학적으로 가져오고 싶다면 이 예시처럼 가져오기 로직을 사용자 정의 Hook으로 추출하는 것을 고려하세요.</p>
+         <code>{`function SearchResults({ query }) {
+     const [page, setPage] = useState(1);
+     const params = new URLSearchParams({ query, page });
+     const results = useData(\`/api/search?\${params}\`);
+   
+     function handleNextPageClick() {
+       setPage(page + 1);
+     }
+     // ...
+   }
+   
+   function useData(url) {
+     const [data, setData] = useState(null);
+     useEffect(() => {
+       let ignore = false;
+       fetch(url)
+         .then(response => response.json())
+         .then(json => {
+           if (!ignore) {
+             setData(json);
+           }
+         });
+       return () => {
+         ignore = true;
+       };
+     }, [url]);
+     return data;
+   }`}</code>
+      </section>
    </main>)
 }

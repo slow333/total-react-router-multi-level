@@ -6,7 +6,7 @@ import OutletInput from "./page/OutletInput";
 import Memos from "./page/common/memos";
 import JsxMarkup from "./page/react-inside/ui-render/01-JsxMarkup";
 import PropsInjection from "./page/react-inside/ui-render/02-PropsInjection";
-import React, {useRef, useState} from "react";
+import React, {useState} from "react";
 import HowRendering from "./page/react-inside/ui-render/03-HowRendering";
 import EventHandle from "./page/react-inside/event-react/01-EventHandle";
 import HandleState from "./page/react-inside/event-react/02-HandleState";
@@ -131,104 +131,131 @@ export default function Router() {
 }
 
 export function Layout() {
-
-   const [mainMenuUrl, setMainMenuUrl] = useState('')
-   const [subMenuUrl, setSubMenuUrl] = useState('')
+   const [isShow, setIsShow] = useState([]);
+   const [mainNavObj, setMainNavObj] = useState(mainNav);
+   const [currentUrl, setCurrentUrl] = useState('');
    const [dropdownUrl, setDropdownUrl] = useState('');
 
-   let subMenu = (list, url) => list.filter(s => s.url.includes(url));
+   let subMenu = (list, obj) => list.filter(s => s.url.includes(obj.url));
+   let ulStyle = {display: 'flex', justifyContent: 'left'};
+   // console.log(window.location)
 
-   let oneSelected = {backgroundColor: 'white', color: 'black', fontWeight: 'bolder'};
-
-   let ulStyle = {display: 'flex', justifyContent: 'left', fontSize: '1rem'}
-   let subMenuStyle = {
-      ...ulStyle,
-      alignItems: 'center',
-      backgroundColor: 'orangered',
-      width: '100%',
-      position: 'absolute',
-      top: '38px',
-      left: '0', paddingLeft: '20px'
-   }
-   let dropdownStyle = { ...subMenuStyle,  top: '36px',backgroundColor:'green', fontSize:'10px' }
-
-   let clearUrl = (url) => {
-      if (mainMenuUrl === url) {
-         setSubMenuUrl('');
-         setDropdownUrl('');
+   function handleLevelOne(e, sub) {
+      e.preventDefault();
+      setMainNavObj(sub);
+      if(sub.url === currentUrl) {
+         setIsShow([]);
+         setCurrentUrl('');
       } else {
-         setMainMenuUrl(url);
-         setSubMenuUrl('');
-         setDropdownUrl('');
+         setCurrentUrl(sub.url);
       }
    }
-   // console.log('main ==> ', mainMenuUrl, '\nsub ===>', subMenuUrl, '\n drop ===>',dropdownUrl)
+
+   function handleOnEnterDropdown(e, dropdownUrls, url) {
+      e.preventDefault();
+      let urlList = dropdownUrls.map(arr => arr.url);
+      setIsShow(urlList);
+      setCurrentUrl(url);
+   }
+
+   function handleOnLeaveDropdown(e) {
+      e.preventDefault();
+      setIsShow([]);
+   }
 
    return (<div className='layout'>
       <nav>
          <ul>
             <li key={Date.now()}
-                onClick={() => clearUrl('/home')}>
-               <Link to='/' style={mainMenuUrl === '/home' ? oneSelected : {}}
-               >HOME</Link>
+                onClick={(e) => handleLevelOne(e, {url: '/home', name: 'home'})}>
+               <NavLink to='/'
+                        currentUrl={currentUrl}
+                        inUrl='/home' bg='white' color='#333'>
+                  HOME
+               </NavLink>
             </li>
-            <li style={ulStyle}>
-               { mainNav.map(sub =>
-                  <Link
-                     key={sub.url} to={sub.url}
-                     onMouseEnter={() => {
-                        setMainMenuUrl(sub.url);
-                        setSubMenuUrl('');
-                     }}
-                     style={ mainMenuUrl === sub.url
-                           ? { backgroundColor: 'white', color: 'black' } : {} }
-                  > {sub.name} </Link>
+            <li style={ulStyle} key={'3step-nav-bar-li'}>
+               {mainNav.map(sub =>
+                  <>
+                     <LevelTwo sub={sub} handleClick={handleLevelOne} currentUrl={currentUrl}/>
+                     <ul style={ulStyle}>
+                        {subMenu(subs, mainNavObj).map(subLink => {
+                           let dropdowns = subMenu(links, subLink);
+
+                           return (<li
+                              key={subLink.name}
+                              style={(subLink.url === currentUrl) ? {backgroundColor: '#333'} : {}}
+                              onMouseEnter={(e) => handleOnEnterDropdown(e, dropdowns, subLink.url)}
+                              onMouseLeave={handleOnLeaveDropdown}
+                           >
+                              <NavLink to={subLink.url}
+                                       inUrl={subLink.url} bg="#333" color=''
+                                       currentUrl={currentUrl}>
+                                 {subLink.name}
+                              </NavLink>
+                              <ul style={ulStyle}>
+                                 {dropdowns.map(dropdown =>
+                                    <DropdownMenu
+                                       dropdown={dropdown} isShow={isShow}
+                                       currentUrl={currentUrl}
+                                       setCurrentUrl={setCurrentUrl}
+                                       setDropdownUrl={setDropdownUrl}
+                                       dropdownUrl={dropdownUrl}
+                                    />
+                                 )}
+                              </ul>
+                           </li>);
+                        })}
+                     </ul>
+                  </>
                )}
-               { mainMenuUrl &&
-                  <ul style={subMenuStyle}>
-                     { subMenu(subs, mainMenuUrl).map(sub =>
-                        <li
-                           key={sub.url}
-                           onMouseEnter={() =>  setSubMenuUrl(sub.url) }
-                           onMouseLeave={() =>  !dropdownUrl ? setSubMenuUrl(sub.url) : ''}
-                           onClick={() => setSubMenuUrl('')}
-                        >
-                           <Link
-                              to={sub.url}
-                              style= { sub.url === subMenuUrl
-                                 ? {backgroundColor: 'white', color: 'black'} : {}}
-                           > {sub.name}</Link>
-                        </li>
-                     )}
-                     { subMenuUrl &&
-                        <ul style={dropdownStyle} >
-                           {subMenu(links, subMenuUrl).map(dropdown =>
-                              <li key={dropdown.url} style={{fontSize:'1rem', padding:"0px"}}
-                                  onClick={() => {
-                                     setDropdownUrl(dropdown.url);
-                                     setSubMenuUrl('');
-                                  }}>
-                                 <Link
-                                    to={dropdown.url}
-                                    style={dropdown.url === dropdownUrl
-                                       ? {backgroundColor: 'white', color: 'black',
-                                          fontSize:'0.9rem', padding:"6px 10px"}
-                                       : {fontSize:'0.9rem',padding:"6px 10px"}}
-                                 > {dropdown.name}</Link>
-                              </li>
-                           )}
-                        </ul>}
-                  </ul>}
             </li>
-            <li onClick={() => clearUrl('/memo')}>
-               <Link
-                  to='/memo'
-                  style={mainMenuUrl === '/memo' ? oneSelected : {}}
-               > MEMOS</Link>
+            <li onClick={(e) => handleLevelOne(e, {url: '/memo', name: 'memo'})}>
+               <NavLink to='/memo' currentUrl={currentUrl} inUrl='/memo' bg='white' color='#333'>
+                  Memos
+               </NavLink>
             </li>
-            <li><a id='go-js-home' href="/pages/index.html">JS</a></li>
+            <li>
+               <a id='go-js-home'
+                  href="/pages/index.html"
+               >JS</a>
+            </li>
          </ul>
       </nav>
       <Outlet/>
    </div>);
+}
+
+
+function DropdownMenu({dropdown, isShow, currentUrl, setCurrentUrl, setDropdownUrl, dropdownUrl}) {
+   return (<li
+      key={dropdown.url}
+      style={!isShow.includes(dropdown.url)
+         ? {display: 'none'}
+         : (dropdown.url === currentUrl)
+            ? {backgroundColor: 'orange', color: 'white'} : {}}
+      onMouseEnter={() => setCurrentUrl(dropdown.url)}
+      onClick={() => setDropdownUrl(dropdown.url)}
+   >
+      <Link to={dropdown.url}
+            style={dropdown.url === dropdownUrl
+               ? {backgroundColor: 'white', color: 'black'} : {}}
+      > {dropdown.name} </Link>{/*level 3*/}
+   </li>)
+}
+
+function LevelTwo({sub, handleClick, currentUrl}) {
+   return (
+      <NavLink to={sub.url} currentUrl={currentUrl} index={sub.url}
+               onClick={e => handleClick(e, sub)} bg='#fff' color='#000'>{sub.name}</NavLink>
+   )
+}
+
+function NavLink({ children, to, currentUrl, inUrl, bg='#fff', color='', onClick }) {
+   return(
+      <Link to={to}
+            style={(currentUrl.includes(inUrl))
+               ? {backgroundColor: bg, color: color } : {} }
+            onClick={onClick}
+   >  {children} </Link>)
 }

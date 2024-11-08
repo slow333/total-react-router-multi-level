@@ -4,85 +4,21 @@ nav {
    width: 100%;
    background-color: #333;
    background-image: linear-gradient(to right, #333 ,#888 ,#aaa);
-   padding:0;
    z-index: 100;
 }
-nav ul {
+nav ul,  nav ul li{
    display: flex;
    justify-content: left;
-   /*gap: 2rem;*/
    align-items: center;
    padding: 0;
    list-style: none;
 }
-nav ul li {
-   list-style: none;
-   display: flex;
-   justify-content: left;
-   align-items: center;
-   padding:0;
-}
+
 nav ul li a{
    font-size: 1.1rem;
    color: white;
    text-decoration: none;
-   padding: 6px 10px;
-}
-
-nav ul li ul {
-   display: flex;
-   flex: 1 1;
-   justify-content: left;
-   align-items: center;
-   padding-left: 20px;
-   margin-left: 20px;
-   position: absolute;
-   top: 38px;
-   left: 50%;
-   right: auto;
-   transform: translateX(-50%);
-   background-color: orangered;
-   width: 106%;
-}
-nav ul li ul li {
-   color: whitesmoke;
-   padding: 0;
-   text-decoration: none;
-   z-index: 10;
-}
-nav ul li ul li a {
-   font-size: 1rem;
-}
-nav ul li ul li a:hover {
-   background-color: #777;
-   color: white;
-}
-nav ul li ul li ul {
-   display: flex;
-   justify-content: left;
-   align-items: center;
-   padding-left:30px;
-   margin: 0;
-   position: absolute;
-   top: 32px;
-   left: 50%;
-   right: auto;
-   transform: translateX(-50%);
-   background-color: black;
-   width: 105%;
-}
-nav ul li ul li ul li {
-   padding:0;
-   text-decoration: none;
-   z-index: 10;
-}
-nav ul li ul li ul li:first-child {
-   margin-left:20px;
-}
-nav ul li ul li ul li a {
-   font-size: 0.9rem;
-   color: #fff;
-   /*padding: 4px 6px;*/
+   padding: 6px 20px;
 }
 
 nav ul li a:hover {
@@ -90,7 +26,9 @@ nav ul li a:hover {
    color: #fff;
    cursor: pointer;
 }
-
+nav ul li ul li a {
+   padding: 6px 10px;
+}
 a#go-js-home{
    background-color: #444;
 }
