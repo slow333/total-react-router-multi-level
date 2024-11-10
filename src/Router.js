@@ -3,20 +3,20 @@ import {mainNav, links, subs} from "./navData";
 import Home from "./page/common/Home";
 import OutletInput from "./page/OutletInput";
 import Memos from "./page/common/memos";
-import JsxMarkup from "./page/react-inside/ui-render/01-JsxMarkup";
-import PropsInjection from "./page/react-inside/ui-render/02-PropsInjection";
-import React, { useState} from "react";
-import HowRendering from "./page/react-inside/ui-render/03-HowRendering";
-import EventHandle from "./page/react-inside/event-react/01-EventHandle";
-import HandleState from "./page/react-inside/event-react/02-HandleState";
-import RenderingCommit from './page/react-inside/event-react/03-RenderingCommit';
-import ObjectStateUpdate from "./page/react-inside/event-react/04-ObjectStateUpdate";
-import ArrayStateUpdate from "./page/react-inside/event-react/05-ArrayStateUpdate";
-import HandleUseState from "./page/react-inside/state-mgmt/01-HandleUseState";
-import StateArchitecture from "./page/react-inside/state-mgmt/02-StateArchitecture";
-import StateHoisting from "./page/react-inside/state-mgmt/03-StateHoisting";
-import StateReducer from "./page/react-inside/state-mgmt/04-StateReducer";
-import ContextPropDelivery from "./page/react-inside/state-mgmt/05-ContextPropDelivery";
+import JsxMarkup from "./page/react-inside/01-ui-render/01-JsxMarkup";
+import PropsInjection from "./page/react-inside/01-ui-render/02-PropsInjection";
+import React, {useEffect, useState} from "react";
+import HowRendering from "./page/react-inside/01-ui-render/03-HowRendering";
+import EventHandle from "./page/react-inside/02-event-react/01-EventHandle";
+import HandleState from "./page/react-inside/02-event-react/02-HandleState";
+import RenderingCommit from './page/react-inside/02-event-react/03-RenderingCommit';
+import ObjectStateUpdate from "./page/react-inside/02-event-react/04-ObjectStateUpdate";
+import ArrayStateUpdate from "./page/react-inside/02-event-react/05-ArrayStateUpdate";
+import HandleUseState from "./page/react-inside/03-state-mgmt/01-HandleUseState";
+import StateArchitecture from "./page/react-inside/03-state-mgmt/02-StateArchitecture";
+import StateHoisting from "./page/react-inside/03-state-mgmt/03-StateHoisting";
+import StateReducer from "./page/react-inside/03-state-mgmt/04-StateReducer";
+import ContextPropDelivery from "./page/react-inside/03-state-mgmt/05-ContextPropDelivery";
 import UsingRef from "./page/react-outside/ref-effect/01-UsingRef";
 import DOMByRef from "./page/react-outside/ref-effect/02-DOMByRef";
 import EffectBasic from "./page/react-outside/side-effect/01-EffectBasic";
@@ -30,7 +30,7 @@ import JsBasic from "./page/javascript/js/01-JsBasic";
 import JsObjectBasic from "./page/javascript/object/01-JsObjectBasic";
 import AsyncBasic from "./page/javascript/async/01-AsyncBasic";
 import AsyncEventHandler from "./page/javascript/async/02-AsyncEventHandler";
-import ContextUseReducer from "./page/react-inside/state-mgmt/06-ContextUseReducer";
+import ContextUseReducer from "./page/react-inside/03-state-mgmt/06-ContextUseReducer";
 import JsArrayIfLoop from "./page/javascript/js/02-JsArrayIf";
 import FuncExample from "./page/javascript/js/03-Func";
 import EventHandling from "./page/javascript/js/04-EventHandling";
@@ -46,7 +46,7 @@ import JsWorker from "./page/javascript/async/08-JsWorker";
 import NoNeedEffect from "./page/react-outside/side-effect/02-NoNeedEffect";
 import EffectLifecycle from "./page/react-outside/side-effect/03-EffectLifecycle";
 import EffectEvent from "./page/react-outside/side-effect/04-SeperateEventFromEffect";
-import style from './css/Spinner.module.css';
+import style from './css/Nav.module.css';
 import CustomHook from "./page/react-outside/side-effect/05-customHook";
 
 export default function Router() {
@@ -140,21 +140,41 @@ export function Layout() {
    const [mainMenuUrl, setMainMenuUrl] = useState('')
    const [subMenuUrl, setSubMenuUrl] = useState('')
    const [dropdownUrl, setDropdownUrl] = useState('');
+   const [movePage, setMovePage] = useState({prev:'', next:''});
+   const [currentPage, setCurrentPage] = useState('')
+
+   const MENU_LIST = Object.values(links).map(m => m.url);
+   const SUBS_LIST = Object.values(subs).map(m => m.url);
+   const GO_LIST = [...SUBS_LIST, ...MENU_LIST];
+   console.log(GO_LIST)
+
+   let currentIndex = GO_LIST.findIndex(url => url === currentPage);
+
+   function goPrev() {
+      setMovePage({...movePage, prev: GO_LIST[currentIndex - 1]})
+      setCurrentPage(GO_LIST[currentIndex - 1]);
+   }
+   function goNext() {
+      setMovePage({...movePage, next:GO_LIST[currentIndex + 1]})
+      setCurrentPage(GO_LIST[currentIndex + 1])
+   }
 
    let navStyel = { position: 'fixed', top: '0', width: '100%', backgroundColor: '#333',
       backgroundImage: 'linear-gradient(to right, #333 ,#888 ,#aaa)', zIndex: '100' };
-   let oneSelected = {backgroundColor: 'white', color: 'black'};
-   let homeMemo = {backgroundColor: 'royalblue', color: 'white'};
-   let ulStyle = {display: 'flex', justifyContent: 'left',alignItems: 'center',
+   let oneSelected = { backgroundColor: 'white', color: 'black', width: 140};
+   let homeMemo = { backgroundColor: 'royalblue', color: 'white'};
+   let ulStyle = { display: 'flex', justifyContent: 'left', alignItems: 'center',textAlign:'center',
       width: '100%', fontSize: '1rem'};
    let subMenuStyle = {
       ...ulStyle,
       backgroundColor: 'orangered',
       position: 'absolute',
-      top: '38px',
-      left: '0', paddingLeft: '0px'
+      top: 38,
+      left: '0', paddingLeft: 10,
    };
-   let dropdownStyle = { ...subMenuStyle,  top: '36px',backgroundColor:'green', fontSize:'10px' };
+   let dropdownStyle = { ...subMenuStyle,textAlign:'left',
+      flexDirection:'column', width: 140, paddingRight: 0,
+      backgroundColor:'green', fontSize:10 };
 
    let subMenu = (list, url) => list.filter(s => s.url.includes(url));
 
@@ -164,7 +184,8 @@ export function Layout() {
             <li onClick={() => setMainMenuUrl('/home')}
                 onMouseEnter={() => setMainMenuUrl('')} >
                <Link to='/' style={mainMenuUrl === '/home' ? oneSelected : {}}
-               ><span className={style.loader}></span></Link>
+               ><span style={{display: 'inline-block', width:'46px'}}>
+                  <span className={style.loader}>↺</span> H</span></Link>
             </li>
             <li style={ulStyle} >
                { mainNav.map(sub =>
@@ -173,41 +194,59 @@ export function Layout() {
                         setMainMenuUrl(sub.url);
                         setSubMenuUrl('');
                      }}
-                     style={ mainMenuUrl === sub.url ? oneSelected : {} }
+                     style={ mainMenuUrl === sub.url ? {...oneSelected, width:150} : {width:150} }
                   > {sub.name} </Link>
                )}
                { mainMenuUrl &&
                   <ul style={subMenuStyle}>
                      { subMenu(subs, mainMenuUrl).map(sub =>
-                        <li key={sub.url}
-                           onMouseEnter={() =>  setSubMenuUrl(sub.url) }
-                           onClick={() => setSubMenuUrl('')}
+                        <li key={sub.url} style={{position:'relative', width:140}}
+                           onMouseEnter={() => {
+                              setSubMenuUrl(sub.url);
+                              setCurrentPage(sub.url);
+                           } }
+                           onClick={() => {
+                              setSubMenuUrl('');
+                              setCurrentPage(sub.url);
+                           }}
                         >
                            <Link to={sub.url}
-                              style= { sub.url === subMenuUrl ? oneSelected : {}}
-                           > {sub.name}</Link>
-                        </li>
-                     )}
-                     { subMenuUrl &&
+                              style= { sub.url === subMenuUrl ? oneSelected : {width:140}}
+                           > {sub.name}
+                           </Link>
+
+                     { subMenuUrl === sub.url &&
                         <ul style={dropdownStyle}
                             onMouseLeave={() => setSubMenuUrl('')} >
                            {subMenu(links, subMenuUrl).map(dropdown =>
                               <li key={dropdown.url}
-                                  style={{fontSize:'1rem', padding:"0px"}}
+                                  style={{fontSize:'1rem', padding:0}}
                                   onClick={() => {
                                      setDropdownUrl(dropdown.url);
                                      setSubMenuUrl('');
+                                     setCurrentPage(dropdown.url);
                                   }}
                               >
                                  <Link to={dropdown.url}
-                                    style={dropdown.url === dropdownUrl
-                                       ? {...oneSelected, fontSize:'0.9rem', padding:"6px 10px"}
-                                       : {fontSize:'0.9rem',padding:"6px 10px"}}
+                                       style={dropdown.url === dropdownUrl
+                                          ? {...oneSelected, 
+                                             fontSize:'0.9rem', width:140 }
+                                          : {fontSize:'0.9rem', width:140}}
                                  > {dropdown.name}</Link>
                               </li>
                            )}
                         </ul>}
+                        </li>
+                     )}
                   </ul>}
+            </li>
+            <li>
+               <button className={style.btnMove} onClick={goPrev}>
+                  <Link to={movePage.prev} className={style.link}>←</Link>
+               </button>
+               <button className={style.btnMove} onClick={goNext}>
+                  <Link to={movePage.next}  className={style.link}>→</Link>
+               </button>
             </li>
             <li onClick={() => setMainMenuUrl('/memo')}
                 onMouseEnter={() => setMainMenuUrl('')} >

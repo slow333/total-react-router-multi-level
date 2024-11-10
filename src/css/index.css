@@ -24,26 +24,26 @@ body {
 }
 
 .layout {
-  min-height: 90vh;
+  min-height: 93.3vh;
 }
 main {
   margin: 54px 10px 0 10px;
-  padding-top: 18px;
+  padding: 18px 0 10px 4px;
   background-color: #ffffff;
 }
 section {
   padding: 2px 9px 6px 9px;
-  border: 0.5px dotted #cccccc;
+  border: 1px dotted #cccccc;
   /*background-image: linear-gradient(to bottom right, #fff, #eee);*/
   margin: 7px 10px 4px 9px;
 }
 footer {
   position: relative;
-  transform: translateY(19%);
+  /*transform: translateY(19%);*/
   margin: 0 0 0 0;
   font-size: 1rem;
-  background: rgba(255, 69, 0, 0.32);
-  color: rgba(0, 0, 126, 0.52);
+  background: rgba(18, 18, 18, 0.32);
+  color: #eee;
   padding: 4px 12px;
   z-index: 20;
 }
@@ -65,6 +65,18 @@ nav ul a:hover {
   background-color: black;
   color: #fff;
   cursor: pointer;
+}
+nav ul li ul li ul li {
+  background-color: black;
+  
+}
+nav ul li ul li ul li a {
+  background-color: black;
+  margin: 4px 10px;
+}
+nav ul li ul li ul li a:hover {
+  background-color: #888;
+  color: #121212;
 }
 /*===============================*/
 
