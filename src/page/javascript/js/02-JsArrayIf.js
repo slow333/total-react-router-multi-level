@@ -12,6 +12,47 @@ export default function JsArrayIfLoop() {
             <li>array에 추가 제거: unshift(), shift() <b>맨앞</b>에 추가/제거</li>
          </ul>
       </section>
+      <section>
+         <h3>match</h3>
+         <p>일치하는 것 중 제일 첫번째 것만 알고싶을 때, RegExp.exec()을 대신에 사용</p>
+         <code>{`let url='/planets/earth/places'
+   const match = url.match(/^\/planets\/([\w-]+)\/places(\/)?$/); == /planets/.../places
+   console.log(match); // [/planets/earth/places, earth, ...]
+   from /page/react-outside/side-effect/03-EffectLifecycle.js`}</code>
+         <code>{`const paragraph = 'The quick brown fox jumps over the lazy dog. It barked.';
+   const regex = /[A-Z]/g;
+   const found = paragraph.match(regex);
+   
+   console.log(found);
+   // Expected output: Array ["T", "I"]
+
+  const paragraph = "The quick brown fox jumps over the lazy dog. It barked.";
+   const capturingRegex = /(?<animal>fox|cat) jumps over/;
+   const found = paragraph.match(capturingRegex);
+   console.log(found.groups); // {animal: "fox"}
+   
+   const str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+   const regexp = /[A-E]/gi;
+   const matches = str.match(regexp);
+   
+   console.log(matches);
+   // ['A', 'B', 'C', 'D', 'E', 'a', 'b', 'c', 'd', 'e']
+   
+   const str = "For more information, see Chapter 3.4.5.1";
+   const re = /see (chapter \\d+(\\.\\d)*)/i;
+   const found = str.match(re);
+   
+   console.log(found);
+   // [
+   //   'see Chapter 3.4.5.1',
+   //   'Chapter 3.4.5.1',
+   //   '.1',
+   //   index: 22,
+   //   input: 'For more information, see Chapter 3.4.5.1',
+   //   groups: undefined
+   // ]
+         `}</code>
+      </section>
       <div id="clearDiv"></div>
       <section>
          <h3>if 문</h3>

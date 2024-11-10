@@ -1,4 +1,3 @@
-import './css/menu.css';
 import {Routes, Route, Outlet, Link} from "react-router-dom";
 import {mainNav, links, subs} from "./navData";
 import Home from "./page/common/Home";
@@ -6,7 +5,7 @@ import OutletInput from "./page/OutletInput";
 import Memos from "./page/common/memos";
 import JsxMarkup from "./page/react-inside/ui-render/01-JsxMarkup";
 import PropsInjection from "./page/react-inside/ui-render/02-PropsInjection";
-import React, {useRef, useState} from "react";
+import React, { useState} from "react";
 import HowRendering from "./page/react-inside/ui-render/03-HowRendering";
 import EventHandle from "./page/react-inside/event-react/01-EventHandle";
 import HandleState from "./page/react-inside/event-react/02-HandleState";
@@ -46,6 +45,9 @@ import PromisesApi from "./page/javascript/async/07-PromisesApi";
 import JsWorker from "./page/javascript/async/08-JsWorker";
 import NoNeedEffect from "./page/react-outside/side-effect/02-NoNeedEffect";
 import EffectLifecycle from "./page/react-outside/side-effect/03-EffectLifecycle";
+import EffectEvent from "./page/react-outside/side-effect/04-SeperateEventFromEffect";
+import style from './css/Spinner.module.css';
+import CustomHook from "./page/react-outside/side-effect/05-customHook";
 
 export default function Router() {
    return (<div>
@@ -88,6 +90,8 @@ export default function Router() {
                   <Route path="effect-basic" element={<EffectBasic/>}/>
                   <Route path="no-need-effect" element={<NoNeedEffect/>}/>
                   <Route path="effect-lifecycle" element={<EffectLifecycle/>}/>
+                  <Route path="event-from-effect" element={<EffectEvent/>}/>
+                  <Route path="custom-hook" element={<CustomHook/>}/>
                </Route>
             </Route>
             <Route path='html-css' element={<OutletInput/>}>
@@ -137,66 +141,65 @@ export function Layout() {
    const [subMenuUrl, setSubMenuUrl] = useState('')
    const [dropdownUrl, setDropdownUrl] = useState('');
 
-   let subMenu = (list, url) => list.filter(s => s.url.includes(url));
-
+   let navStyel = { position: 'fixed', top: '0', width: '100%', backgroundColor: '#333',
+      backgroundImage: 'linear-gradient(to right, #333 ,#888 ,#aaa)', zIndex: '100' };
    let oneSelected = {backgroundColor: 'white', color: 'black'};
    let homeMemo = {backgroundColor: 'royalblue', color: 'white'};
    let ulStyle = {display: 'flex', justifyContent: 'left',alignItems: 'center',
-      width: '100%', fontSize: '1rem'}
+      width: '100%', fontSize: '1rem'};
    let subMenuStyle = {
       ...ulStyle,
       backgroundColor: 'orangered',
       position: 'absolute',
       top: '38px',
-      left: '0', paddingLeft: '20px'
-   }
-   let dropdownStyle = { ...subMenuStyle,  top: '36px',backgroundColor:'green', fontSize:'10px' }
+      left: '0', paddingLeft: '0px'
+   };
+   let dropdownStyle = { ...subMenuStyle,  top: '36px',backgroundColor:'green', fontSize:'10px' };
+
+   let subMenu = (list, url) => list.filter(s => s.url.includes(url));
 
    return (<div className='layout'>
-      <nav>
+      <nav style={navStyel}>
          <ul>
             <li onClick={() => setMainMenuUrl('/home')}
                 onMouseEnter={() => setMainMenuUrl('')} >
-               <Link to='/' style={mainMenuUrl === '/home' ? oneSelected : homeMemo}
-               >HOME</Link>
+               <Link to='/' style={mainMenuUrl === '/home' ? oneSelected : {}}
+               ><span className={style.loader}></span></Link>
             </li>
             <li style={ulStyle} >
                { mainNav.map(sub =>
-                  <Link
-                     key={sub.url} to={sub.url}
+                  <Link key={sub.url} to={sub.url}
                      onMouseEnter={() => {
                         setMainMenuUrl(sub.url);
                         setSubMenuUrl('');
                      }}
-
                      style={ mainMenuUrl === sub.url ? oneSelected : {} }
                   > {sub.name} </Link>
                )}
                { mainMenuUrl &&
                   <ul style={subMenuStyle}>
                      { subMenu(subs, mainMenuUrl).map(sub =>
-                        <li
-                           key={sub.url}
+                        <li key={sub.url}
                            onMouseEnter={() =>  setSubMenuUrl(sub.url) }
                            onClick={() => setSubMenuUrl('')}
                         >
-                           <Link
-                              to={sub.url}
+                           <Link to={sub.url}
                               style= { sub.url === subMenuUrl ? oneSelected : {}}
                            > {sub.name}</Link>
                         </li>
                      )}
                      { subMenuUrl &&
-                        <ul style={dropdownStyle} onMouseLeave={() => setSubMenuUrl('')} >
+                        <ul style={dropdownStyle}
+                            onMouseLeave={() => setSubMenuUrl('')} >
                            {subMenu(links, subMenuUrl).map(dropdown =>
-                              <li key={dropdown.url} style={{fontSize:'1rem', padding:"0px"}}
+                              <li key={dropdown.url}
+                                  style={{fontSize:'1rem', padding:"0px"}}
                                   onClick={() => {
                                      setDropdownUrl(dropdown.url);
                                      setSubMenuUrl('');
                                   }}
                               >
-                                 <Link
-                                    to={dropdown.url}
+                                 <Link to={dropdown.url}
                                     style={dropdown.url === dropdownUrl
                                        ? {...oneSelected, fontSize:'0.9rem', padding:"6px 10px"}
                                        : {fontSize:'0.9rem',padding:"6px 10px"}}
@@ -207,11 +210,9 @@ export function Layout() {
                   </ul>}
             </li>
             <li onClick={() => setMainMenuUrl('/memo')}
-                onMouseEnter={() => setMainMenuUrl('')}
-                style={{width:'81%'}}
-            >
+                onMouseEnter={() => setMainMenuUrl('')} >
                <Link to='/memo' style={mainMenuUrl === '/memo' ? oneSelected : homeMemo }
-               > MEMOS</Link>
+               > <span className={style.neon}>MEMOs</span></Link>
             </li>
             <li><a id='go-js-home' href="/pages/index.html" >JS</a></li>
          </ul>

@@ -20,35 +20,53 @@ body {
   overflow-y: scroll;
   overflow-x: hidden;
   min-width: 700px !important;
-  background-color: #eee;
+  background-color: #efefef;
 }
 
+.layout {
+  min-height: 90vh;
+}
 main {
-  margin: 54px 10px 0px 20px;
-  padding-top: 20px;
-  /*background-image: url('/images/bg1.PNG');*/
-  /*background-repeat: no-repeat;*/
-  /*background-origin: content-box;*/
+  margin: 54px 10px 0 10px;
+  padding-top: 18px;
+  background-color: #ffffff;
 }
 section {
-  border: 1px solid #aaa;
-  padding: 0 10px 6px 10px;
-  background-image: linear-gradient(to bottom right, #fff, #eee);
-  margin: 8px 12px 4px 10px;
-}
-.layout {
-  min-height: 93.6vh;
+  padding: 2px 9px 6px 9px;
+  border: 0.5px dotted #cccccc;
+  /*background-image: linear-gradient(to bottom right, #fff, #eee);*/
+  margin: 7px 10px 4px 9px;
 }
 footer {
   position: relative;
-  transform: translateY(13%);
+  transform: translateY(19%);
   margin: 0 0 0 0;
   font-size: 1rem;
-  background: orangered;
-  color: whitesmoke;
-  padding: 4px 22px;
-  z-index: 200;
+  background: rgba(255, 69, 0, 0.32);
+  color: rgba(0, 0, 126, 0.52);
+  padding: 4px 12px;
+  z-index: 20;
 }
+/*======== nav menu ==========**/
+nav ul,  nav ul li{
+  display: flex;
+  padding: 0;
+  list-style: none;
+}
+
+nav ul li a{
+  font-size: 1.1rem;
+  color: white;
+  text-decoration: none;
+  padding: 6px 20px;
+}
+
+nav ul a:hover {
+  background-color: black;
+  color: #fff;
+  cursor: pointer;
+}
+/*===============================*/
 
 h1, h2, h3, h4 {
   margin: 8px;
@@ -69,7 +87,7 @@ code {
   word-wrap: break-word;
   white-space: pre;
 }
-code::before {
+code::before, .cd {
   content: "| ";
   color: orangered;
 }
@@ -103,9 +121,6 @@ green, .green {
   color: green;
   font-weight: bold;
 }
-.selected {
-  background-color: orangered;
-}
 
 ul.no-list-type li {
   padding:0;
@@ -118,4 +133,9 @@ ul.no-list-type li {
 }
 ul li{
   list-style: circle;
+}
+
+hr {
+  border: 2px solid orangered;
+  margin: 8px 0;
 }

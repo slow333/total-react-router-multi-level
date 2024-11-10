@@ -1,0 +1,67 @@
+.loader {
+   width: 26px;
+   height: 26px;
+   border: 3px solid #FFF;
+   border-radius: 50%;
+   display: inline-block;
+   position: relative;
+   box-sizing: border-box;
+   animation: rotation 1s linear infinite;
+}
+.loader::after {
+   content: '';
+   box-sizing: border-box;
+   position: absolute;
+   left: 0;
+   top: 0;
+   background: #FF3D00;
+   width: 10px;
+   height: 10px;
+   transform: translate(-50%, 50%);
+   border-radius: 50%;
+}
+
+@keyframes rotation {
+   0% {
+      transform: rotate(0deg);
+   }
+   100% {
+      transform: rotate(360deg);
+   }
+}
+
+.neon {
+   animation: neon 8s ease infinite;
+   font-weight: bolder;
+}
+@keyframes neon {
+   0%,
+   100% {
+      text-shadow: 0 0 8px #000, 0 0 8px #333, 0 0 8px #555, 0 0 8px #888, 0 0 1px #999, 1px 1px 1px #eee;
+      color: #eee;
+   }
+   50% {
+      text-shadow: 0 0 1px #aaa, 0 0 2px #888, 0 0 2px #666, 0 0 2px #555, 0 0 1px #333, 2px 2px 1px #000;
+      color: #222;
+   }
+}
+
+
+.flipX {
+   animation: 4s anim-flipX ease infinite;
+}
+@keyframes anim-flipX {
+   0% {
+      opacity: 0;
+      transform: rotateX(90deg);
+   }
+   50% {
+      opacity: 1;
+      transform: rotateX(720deg);
+   }
+   100% {
+      /* animate nothing to pause animation at the end */
+      opacity: 1;
+      transform: rotateX(720deg);
+   }
+}

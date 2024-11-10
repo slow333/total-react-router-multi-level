@@ -18,6 +18,29 @@ export function CssTips() {
          </ul>
       </section>
       <section>
+         <h3>transform</h3>
+         <code>{`translate
+  .box:hover{ 
+    transform: translate(10px, 50px) 
+  } // 해당 위치로 이동, translateX, Y도 있음, x,y좌표를 변수로 받아서 처리
+  ## react
+  const [position, setPosition] = useState({x:0,y:0})
+  function onMove() {
+   setPosition({x:0,y:0})
+  }
+  useEffect(() => {
+     window.addEventListener('mousemove', onMove);
+     return window.removeEventListener('mousemove', onMove);
+  })
+  <div styel={{ 
+     position: 'absolute', top: -20, left: -20, width: '10px', height:'10px', 
+     transform: \`translate(\${position.x}px, \${position.y}px)\` 
+  }}"></div>
+  transform: scale(2, 1.5) // 기존 크기의 2배(상하) 1.5배(최우) 늘림
+  transform: rotate(30deg) // 30도 회선
+  transform: skew(30deg, 20deg) // 뒤틀음`}</code>
+      </section>
+      <section>
          <h3>font size 폭이나 높이에 따라 자동 조절하기</h3>
 
          <p> vh 나 vw를 사용하면 화면이나 자기가 속한 dom의 크기에 따라 자동 조절됨 </p>

@@ -41,6 +41,8 @@ const links = [
    { url: '/react-outside/effect/effect-basic', name: 'side Effect', show: false},
    { url: '/react-outside/effect/no-need-effect', name: '불필요 Effect 제거', show: false},
    { url: '/react-outside/effect/effect-lifecycle', name: 'effect lifecycle', show: false},
+   { url: '/react-outside/effect/event-from-effect', name: 'event 분리하기', show: false},
+   { url: '/react-outside/effect/custom-hook', name: 'custom hook 만들기', show: false},
    { url: '/javascript/js/js-basic', name: 'basic', show: false},
    { url: '/javascript/js/js-array-if-loop', name: 'array/if/loop', show: false},
    { url: '/javascript/js/function', name: 'function', show: false},
