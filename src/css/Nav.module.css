@@ -1,3 +1,56 @@
+.navStyle  {
+   position: fixed;
+   top: 0; width: 100%;
+   background-color: #333;
+   background-image: linear-gradient(to right, #333 ,#888 ,#aaa);
+   z-index: 100 }
+
+.onSelect  {
+   background-color: white; color: black; width: 140px
+}
+.homeMemo  {
+   background-color: royalblue; color: white
+}
+.ulStyle  {
+   display: flex;
+   justify-content: left; align-items: center;
+   text-align: center;
+   width: 100%; font-size: 1rem
+}
+.subMenuStyle  {
+   display: flex; justify-content: left; align-items: center;
+   text-align:center;
+   width: 100%;
+   font-size: 1rem;
+   background-color: orangered;
+   position: absolute;
+   top: 38px;
+   left: 0;
+   padding-left: 10px;
+}
+.dropdownStyle  {
+   display: flex;
+   flex-direction:column;
+   justify-content: left;
+   align-items: center;
+   position: absolute;
+   top: 38px;   left: 0;
+   padding-left: 10px;
+   text-align: left;
+   width: 140px;
+   padding-right: 0;
+   background-color:green;
+   font-size:10px
+}
+
+.btnMove {
+   padding: 0; margin:0; font-weight: bolder;
+   font-size: large; border: none;
+   background: #555;
+}
+.link {
+   padding: 8px 12px; margin: 0 0 0 0; font-weight: bolder;
+}
 .loader {
    width: 26px;
    height: 26px;
@@ -64,13 +117,4 @@
       opacity: 1;
       transform: rotateX(720deg);
    }
-}
-
-.btnMove {
-   padding: 0; margin:0; font-weight: bolder;
-   font-size: large; border: none;
-   background: #555;
-}
-.link {
-   padding: 8px 12px; margin: 0 0 0 0; font-weight: bolder;
 }

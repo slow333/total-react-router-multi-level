@@ -43,6 +43,7 @@ function menuRequest() {
    menuReq.onload = function () { // async event handler
       let text = menuReq.response;
       document.querySelector("#menuNavBar").outerHTML = text;
+      timer();
       setCurrentPageNav();
    }
 }
@@ -56,4 +57,14 @@ function footerRequest() {
       let text = footerReq.response;
       document.querySelector("footer").outerHTML = text;
    }
+}
+
+function timer() {
+   const clock = document.querySelector("#clock");
+
+   let timer = setTimeout( function tick() {
+      let date = new Date();
+      clock.innerText = date.toLocaleTimeString();
+      timer = setTimeout(tick, 1000);
+   }, 1000 )
 }

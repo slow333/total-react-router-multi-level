@@ -1,12 +1,13 @@
-export default function HowRendering() {
+export default function RenderMethode() {
   return (
      <main>
         <h1>UI Tree</h1>
         <section>
-           <p>React와 많은 다른 UI 라이브러리는 UI를 트리로 모델링합니다. 애플리케이션을 트리로 생각하면 컴포넌트 간의 관계를 이해하는 데 도움이 됩니다. 이러한 이해는 성능과 상태 관리와 같이 앞으로
+           <p>React와 많은 다른 UI 라이브러리는 UI를 트리로 모델링합니다. 애플리케이션을 트리로 생각하면
+              컴포넌트 간의 관계를 이해하는 데 도움이 됩니다. 이러한 이해는 성능과 상태 관리와 같이 앞으로
               배울 개념을 디버깅하는 데 도움이 될 것입니다.</p>
         </section>
-        <h1>How Rendering</h1>
+        <h1>조건부 렌더링</h1>
         <section>
            <h2>Conditional Rendering</h2>
            <p>if, &&, 삼항연산(? : ), etc</p>
@@ -53,9 +54,49 @@ export default function HowRendering() {
            <p>다른 옵션을 모두 사용했지만 사이드 이펙트에 적합한 이벤트 핸들러를 찾을 수 없는 경우, 컴포넌트에서 useEffect 호출을 사용하여 반환된 JSX에 해당 이벤트 핸들러를 연결할 수
               있습니다. 이것은 React에게 사이드 이펙트가 허용될 때 렌더링 후 나중에 실행하도록 지시합니다. 그러나 <b>이 접근 방식이 마지막 수단이 되어야 합니다.</b></p>
         </section>
+        <section>
+           <DrinkList/>
+        </section>
      </main>
   )
 }
+const drinks = {
+   tea : {
+      part: 'leaf',
+      caffeine: '15–70 mg/cup',
+      age: '4,000+ years'
+   },
+   coffee: {
+      part: 'bean',
+      caffeine: '80–185 mg/cup',
+      age: '1,000+ years'
+   }
+}
+
+function Drink({ name }) {
+   let drink = drinks[name];
+    return <section>
+         <h1>{name}</h1>
+         <dl>
+            <dt>Part of plant</dt>
+            <dd>{drink.part}</dd>
+            <dt>Caffeine content</dt>
+            <dd>{drink.caffeine}</dd>
+            <dt>Age</dt>
+            <dd>{drink.age}</dd>
+         </dl>
+      </section>
+}
+
+function DrinkList() {
+   return (
+      <div>
+         <Drink name="tea" />
+         <Drink name="coffee" />
+      </div>
+   );
+}
+
 
 function Cup({customer}) {
    return <h3>Waiting Customer #{customer}</h3>

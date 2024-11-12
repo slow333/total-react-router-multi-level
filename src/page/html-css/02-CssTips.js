@@ -1,4 +1,4 @@
-export function CssTips() {
+export default function CssTips() {
    return(<main>
       <h1 className="h1">CSS 잘 잊어버리는 것</h1>
       <section>

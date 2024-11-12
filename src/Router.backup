@@ -1,11 +1,11 @@
-import React, { useState} from "react";
 import {Routes, Route, Outlet, Link} from "react-router-dom";
+import {mainNav, links, subs} from "./navData";
 import Home from "./page/common/Home";
 import OutletInput from "./page/OutletInput";
 import Memos from "./page/common/memos";
 import JsxMarkup from "./page/react-inside/01-ui-render/01-JsxMarkup";
 import PropsInjection from "./page/react-inside/01-ui-render/02-PropsInjection";
-import RenderMethode from "./page/react-inside/01-ui-render/03-ConditionalRender";
+import React, { useState} from "react";
 import EventHandle from "./page/react-inside/02-event-react/01-EventHandle";
 import HandleState from "./page/react-inside/02-event-react/02-HandleState";
 import RenderingCommit from './page/react-inside/02-event-react/03-RenderingCommit';
@@ -16,39 +16,40 @@ import StateArchitecture from "./page/react-inside/03-state-mgmt/02-StateArchite
 import StateHoisting from "./page/react-inside/03-state-mgmt/03-StateHoisting";
 import StateReducer from "./page/react-inside/03-state-mgmt/04-StateReducer";
 import ContextPropDelivery from "./page/react-inside/03-state-mgmt/05-ContextPropDelivery";
-import ContextUseReducer from "./page/react-inside/03-state-mgmt/06-ContextUseReducer";
 import UsingRef from "./page/react-outside/ref-effect/01-UsingRef";
 import DOMByRef from "./page/react-outside/ref-effect/02-DOMByRef";
 import EffectBasic from "./page/react-outside/side-effect/01-EffectBasic";
-import NoNeedEffect from "./page/react-outside/side-effect/02-NoNeedEffect";
-import EffectLifecycle from "./page/react-outside/side-effect/03-EffectLifecycle";
-import EffectEvent from "./page/react-outside/side-effect/04-SeperateEventFromEffect";
-import CustomHook from "./page/react-outside/side-effect/05-customHook";
 import HtmlBasic from "./page/html-css/01-HtmlBasic";
-import CssTips from "./page/html-css/02-CssTips";
+import {CssTips} from "./page/html-css/02-CssTips";
 import CssAttribute from "./page/html-css/03-CssAttribute";
 import FormIntro from "./page/html-css/04-FormIntro";
 import FormTypes from "./page/html-css/05-FormTypes";
 import InputTypes from "./page/html-css/06-InputTypes";
 import JsBasic from "./page/javascript/js/01-JsBasic";
+import JsObjectBasic from "./page/javascript/object/01-JsObjectBasic";
+import AsyncBasic from "./page/javascript/async/01-AsyncBasic";
+import AsyncEventHandler from "./page/javascript/async/02-AsyncEventHandler";
+import ContextUseReducer from "./page/react-inside/03-state-mgmt/06-ContextUseReducer";
 import JsArrayIfLoop from "./page/javascript/js/02-JsArrayIf";
 import FuncExample from "./page/javascript/js/03-Func";
 import EventHandling from "./page/javascript/js/04-EventHandling";
 import Blob from "./page/javascript/js/05-Blob";
-import JsObjectBasic from "./page/javascript/object/01-JsObjectBasic";
 import ObjectPrototype from "./page/javascript/object/02-ObjectPrototype";
 import Inheritance from "./page/javascript/object/03-Inheritance";
 import JsonExample from "./page/javascript/object/04-Json";
-import AsyncBasic from "./page/javascript/async/01-AsyncBasic";
-import AsyncEventHandler from "./page/javascript/async/02-AsyncEventHandler";
 import PromisesEx from "./page/javascript/async/03-PromisesEx";
 import PromisesMultiple from "./page/javascript/async/05-PromisesMultiple";
 import CustomPromises from "./page/javascript/async/06-CustomPromises";
 import PromisesApi from "./page/javascript/async/07-PromisesApi";
 import JsWorker from "./page/javascript/async/08-JsWorker";
+import NoNeedEffect from "./page/react-outside/side-effect/02-NoNeedEffect";
+import EffectLifecycle from "./page/react-outside/side-effect/03-EffectLifecycle";
+import EffectEvent from "./page/react-outside/side-effect/04-SeperateEventFromEffect";
+import style from './css/Nav.module.css';
+import CustomHook from "./page/react-outside/side-effect/05-customHook";
 import Clock from "./util/Clock";
-import {mainNav, links, subs} from "./navData";
-import NavStyle from './css/Nav.module.css';
+import ConditionalRender from "./page/react-inside/01-ui-render/03-ConditionalRender";
+import RenderMethode from "./page/react-inside/01-ui-render/03-ConditionalRender";
 
 export default function Router() {
    return (<div>
@@ -142,70 +143,102 @@ const SUBS_LIST = Object.values(subs).map(m => m.url);
 const GO_LIST = [...SUBS_LIST, ...MENU_LIST];
 
 export function Layout() {
-   const [urls, setUrls] = useState({ main:'', sub:'', dropdown:'', current:'' })
+   const [mainMenuUrl, setMainMenuUrl] = useState('');
+   const [subMenuUrl, setSubMenuUrl] = useState('');
+   const [dropdownUrl, setDropdownUrl] = useState('');
+   const [urls, setUrls] = useState({
+      main:'', sub:'', dropdown:''
+   })
 
+   const [currentPage, setCurrentPage] = useState('');
    const [movePage, setMovePage] = useState({prev:'', next:''});
-
-   let currentIndex = GO_LIST.findIndex(url => url === urls.current);
-
+   let currentIndex = GO_LIST.findIndex(url => url === currentPage);
    function goPrev() {
       setMovePage({...movePage, prev: GO_LIST[currentIndex - 1]})
-      setUrls({...urls, current : GO_LIST[currentIndex - 1]});
+      setCurrentPage(GO_LIST[currentIndex - 1]);
    }
    function goNext() {
-      setMovePage({...movePage, next: GO_LIST[currentIndex + 1]})
-      setUrls({...urls, current : GO_LIST[currentIndex + 1]});
+      setMovePage({...movePage, next:GO_LIST[currentIndex + 1]})
+      setCurrentPage(GO_LIST[currentIndex + 1])
    }
 
-   function handleClick(goto) {
-      setUrls({...urls, main: goto})
-   }
-
+   let navStyel = { position: 'fixed', top: '0', width: '100%', backgroundColor: '#333',
+      backgroundImage: 'linear-gradient(to right, #333 ,#888 ,#aaa)', zIndex: '100' };
    let onSelect = { backgroundColor: 'white', color: 'black', width: 140};
    let homeMemo = { backgroundColor: 'royalblue', color: 'white'};
+   let ulStyle = { display: 'flex', justifyContent: 'left', alignItems: 'center',textAlign:'center',
+      width: '100%', fontSize: '1rem'};
+   let subMenuStyle = {
+      ...ulStyle,
+      backgroundColor: 'orangered',
+      position: 'absolute',
+      top: 38,
+      left: '0', paddingLeft: 10,
+   };
+   let dropdownStyle = { ...subMenuStyle,textAlign:'left',
+      flexDirection:'column', width: 140, paddingRight: 0,
+      backgroundColor:'green', fontSize:10 };
 
    let subMenu = (list, url) => list.filter(s => s.url.includes(url));
 
+   const mainMenuList = mainNav.map(sub =>
+      <Link key={sub.url} to={sub.url}
+            onMouseEnter={() => {
+               setMainMenuUrl(sub.url);
+               setSubMenuUrl('');
+            }}
+            style={ mainMenuUrl === sub.url ? {...onSelect, width:150} : {width:150} }
+      > {sub.name} </Link>);
+
    return (<div className='layout'>
-      <nav className={NavStyle.navStyle}>
+      <nav style={navStyel}>
          <ul>
-            <MainLi url='/' onClick={() => handleClick('/home')}  onHover={() => handleClick('')}
-                    linkStyle={urls.main === '/home' ? onSelect : {}} >
-               <span style={{display: 'inline-block', width: '46px'}}>
-                  <span className={NavStyle.loader}>↺</span> H
-               </span>
-            </MainLi>
-            <li className={NavStyle.ulStyle} >
-               {mainNav.map(sub =>
-                  <MainMenuItem sub={sub} urls={urls} setUrls={setUrls} onSelect={onSelect} />
-               )}
-               { urls.main &&
-                  <ul className={NavStyle.subMenuStyle}>
-                     {subMenu(subs, urls.main).map(sub =>
-                        <SubMenuItem sub={sub} onSelect={onSelect}
-                                     urls={urls} setUrls={setUrls}>
-                           {urls.sub === sub.url &&
-                              <ul className={NavStyle.dropdownStyle}
-                                  onMouseLeave={() => setUrls({...urls, sub: ''})}>
-                              {subMenu(links, urls.sub).map(dropdown =>
-                                 <DropdownItem dropdown={dropdown} onSelect={onSelect}
-                                               urls={urls} setUrls={setUrls}/>)}
-                              </ul>}
+            <li onClick={() => setMainMenuUrl('/home')}
+                onMouseEnter={() => setMainMenuUrl('')} >
+               <Link to='/' style={mainMenuUrl === '/home' ? onSelect : {}}
+               ><span style={{display: 'inline-block', width:'46px'}}>
+                  <span className={style.loader}>↺</span> H</span></Link>
+            </li>
+            <li style={ulStyle} >
+               { mainMenuList }
+               { mainMenuUrl &&
+                  <ul style={subMenuStyle}>
+                     { subMenu(subs, mainMenuUrl).map(sub =>
+                        <SubMenuItem
+                           sub={sub} subMenuUrl={subMenuUrl} onSelect={onSelect}
+                           setSubMenuUrl={setSubMenuUrl}  setCurrentPage={setCurrentPage}
+                        >
+
+                     { subMenuUrl === sub.url &&
+                        <ul style={dropdownStyle}
+                            onMouseLeave={() => setSubMenuUrl('')} >
+                           {subMenu(links, subMenuUrl).map(dropdown =>
+                              <DropdownItem
+                                 dropdown={dropdown} onSelect={onSelect}
+                                 dropdownUrl={dropdownUrl}  setDropdownUrl={setDropdownUrl}
+                                 setSubMenuUrl={setSubMenuUrl} setCurrentPage={setCurrentPage}
+                              />
+                           )}
+                        </ul>}
                         </SubMenuItem>
                      )}
-                  </ul>
-               }
+                  </ul>}
             </li>
             <li>
-               <BtnMove handleClick={goPrev} movePage={movePage.prev}> ← </BtnMove>
-               <BtnMove handleClick={goNext} movePage={movePage.next}> → </BtnMove>
+               <button className={style.btnMove} onClick={goPrev}>
+                  <Link to={movePage.prev} className={style.link}>←</Link>
+               </button>
+               <button className={style.btnMove} onClick={goNext}>
+                  <Link to={movePage.next}  className={style.link}>→</Link>
+               </button>
             </li>
-            <MainLi url='/memo' onClick={() => handleClick('/memo')} onHover={() => handleClick('')}
-                    linkStyle={urls.main === '/memo' ? onSelect : homeMemo} >
-               <span className={NavStyle.neon}>MEMOs</span>
-            </MainLi>
+            <li onClick={() => setMainMenuUrl('/memo')}
+                onMouseEnter={() => setMainMenuUrl('')} >
+               <Link to='/memo' style={mainMenuUrl === '/memo' ? onSelect : homeMemo }
+               > <span className={style.neon}>MEMOs</span></Link>
+            </li>
             <li><a id='go-js-home' href="/pages/index.html" >JS</a></li>
-            <li style={{color: 'yellow',width:80, padding: "8px 20px", marginRight:20,}} >
+            <li style={{color: 'yellow',width:80, padding: "8px 20px",marginRight:20,}} >
                <Clock/>
             </li>
          </ul>
@@ -214,37 +247,20 @@ export function Layout() {
    </div>);
 }
 
-function MainLi({children, url, onClick, onHover, linkStyle}) {
-   return <li
-      onClick={onClick}
-      onMouseEnter={onHover}>
-      <Link to={url} style={linkStyle}>
-         {children}
-      </Link>
-   </li>
-}
-
-function MainMenuItem({sub, urls, setUrls, onSelect}) {
-   return <Link key={sub.url} to={sub.url}
-                onMouseEnter={() => {
-                   setUrls({...urls, main: sub.url, sub: ''})
-                }}
-                style={urls.main === sub.url ? {...onSelect, width: 150} : {width: 150}}
-   > {sub.name} </Link>
-}
-
-function SubMenuItem({children, sub, urls, setUrls, onSelect}) {
+function SubMenuItem({children, sub, setSubMenuUrl, setCurrentPage, subMenuUrl, onSelect}) {
    return <>
       <li key={sub.url} style={{position: 'relative', width: 140}}
           onMouseEnter={() => {
-             setUrls({...urls, sub:sub.url, current: sub.url})
+             setSubMenuUrl(sub.url);
+             setCurrentPage(sub.url);
           }}
           onClick={() => {
-             setUrls({...urls, sub:'', current: sub.url})
+             setSubMenuUrl('');
+             setCurrentPage(sub.url);
           }}
       >
          <Link to={sub.url}
-               style={sub.url === urls.sub ? onSelect : {width: 140}}
+               style={sub.url === subMenuUrl ? onSelect : {width: 140}}
          > {sub.name}
          </Link>
          {children}
@@ -252,31 +268,22 @@ function SubMenuItem({children, sub, urls, setUrls, onSelect}) {
       </>
 }
 
-function DropdownItem ({dropdown, urls, setUrls, onSelect}) {
-   return <li
-      key={dropdown.url}
-      style={{fontSize: '1rem', padding: 0}}
-      onClick={() => {
-         setUrls({...urls, sub:'', dropdown: dropdown.url, current: dropdown.url})
-      }}
+function DropdownItem ({dropdown, dropdownUrl, setDropdownUrl, setSubMenuUrl, setCurrentPage, onSelect}) {
+   return <li key={dropdown.url}
+              style={{fontSize: '1rem', padding: 0}}
+              onClick={() => {
+                 setDropdownUrl(dropdown.url);
+                 setSubMenuUrl('');
+                 setCurrentPage(dropdown.url);
+              }}
    >
       <Link to={dropdown.url}
-            style={dropdown.url === urls.dropdown
-               ? { ...onSelect, fontSize: '0.9rem', width: 140 }
-               : { fontSize: '0.9rem', width: 140 }}
+            style={dropdown.url === dropdownUrl
+               ? {
+                  ...onSelect,
+                  fontSize: '0.9rem', width: 140
+               }
+               : {fontSize: '0.9rem', width: 140}}
       > {dropdown.name}</Link>
    </li>
-}
-
-function BtnMove({children, handleClick, movePage}) {
-   return (
-      <button
-         className={NavStyle.btnMove}
-         onClick={handleClick}>
-         <Link
-            to={movePage}
-            className={NavStyle.link}>
-            {children}
-         </Link>
-      </button>)
 }
